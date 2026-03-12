@@ -253,7 +253,7 @@
         <section class="notes" id="notes">
           <div class="section-heading reveal">
             <p class="eyebrow">Before users click</p>
-            <h2>Set expectations once, then avoid support churn.</h2>
+            <h2>A few things to know before you start.</h2>
           </div>
           <div class="notes-grid">
             <article class="note-card reveal">
@@ -287,9 +287,6 @@
       <footer class="site-footer reveal">
         <p>Her demo ships web and macOS clients that pair to your own her-bridge.</p>
         <div class="footer-links">
-          <a id="source-repo-link" href="https://github.com/Entroplay-ai/Her-demo">
-            Demo repo
-          </a>
           <a
             id="mac-release-link"
             href="https://github.com/Entroplay-ai/Her-demo/releases/latest"
@@ -334,11 +331,6 @@
         "Pending live URL"
       );
       applyLinkState("download-mac-demo", config.macDownloadUrl);
-
-      const sourceRepoLink = document.getElementById("source-repo-link");
-      if (sourceRepoLink && config.sourceUrl) {
-        sourceRepoLink.href = config.sourceUrl;
-      }
 
       const macReleaseLink = document.getElementById("mac-release-link");
       if (macReleaseLink && config.macDownloadUrl) {

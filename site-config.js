@@ -8,7 +8,4 @@ window.HER_DEMO_CONFIG = {
 
   // Keep binaries in GitHub Releases, not in the repo.
   macDownloadUrl: "https://github.com/Entroplay-ai/Her-demo/releases/latest",
-
-  // Optional source repository link shown in the footer.
-  sourceUrl: "https://github.com/Entroplay-ai/Her-demo",
 };
