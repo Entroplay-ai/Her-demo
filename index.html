@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Her Demo</title>
+    <meta
+      name="description"
+      content="Her is a multimodal AI companion with a 3D avatar body. Launch the web demo, download the macOS build, and see what ships next."
+    />
+    <meta property="og:title" content="Her Demo" />
+    <meta
+      property="og:description"
+      content="A release-ready demo page for Her across web and macOS."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/screenshots/default-view.jpg" />
+    <meta name="theme-color" content="#f3ede2" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="texture"></div>
+      <header class="site-header">
+        <a class="wordmark" href="#top" aria-label="Her Demo home">
+          <span class="wordmark-mark"></span>
+          <span class="wordmark-text">
+            <strong>Her</strong>
+            <span>demo release</span>
+          </span>
+        </a>
+        <nav class="top-nav" aria-label="Primary">
+          <a href="#availability">Availability</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#notes">Notes</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Multimodal companion on web and macOS</p>
+            <h1>Give your AI a body, a voice, and a stage.</h1>
+            <p class="hero-text">
+              Her turns an AI assistant into a living avatar with voice, motion,
+              lip sync, and cross-device presence. This page is the public demo
+              entry point for the web experience and the macOS build.
+            </p>
+            <div class="cta-row">
+              <a
+                class="button button-primary"
+                id="launch-web-demo"
+                href="#"
+                data-empty-label="Web demo URL pending"
+              >
+                Launch Web Demo
+              </a>
+              <a
+                class="button button-secondary"
+                id="download-mac-demo"
+                href="https://github.com/Entroplay-ai/Her-demo/releases/latest"
+              >
+                Download Mac Demo
+              </a>
+            </div>
+            <dl class="hero-meta">
+              <div>
+                <dt>Web</dt>
+                <dd id="web-status">Pages-ready</dd>
+              </div>
+              <div>
+                <dt>macOS</dt>
+                <dd id="mac-status">Release-ready</dd>
+              </div>
+              <div>
+                <dt>iOS</dt>
+                <dd>Planned after Apple Developer enrollment</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="hero-stage reveal">
+            <article class="stage-card stage-card-main">
+              <img
+                src="assets/screenshots/default-view.jpg"
+                alt="Her avatar default scene"
+              />
+              <div class="stage-card-copy">
+                <p>Web viewer</p>
+                <strong>3D avatar, lip sync, camera presets, emotion bar</strong>
+              </div>
+            </article>
+            <article class="stage-card stage-card-side">
+              <img
+                src="assets/screenshots/night-sky-face.jpg"
+                alt="Her avatar close-up in night sky scene"
+              />
+            </article>
+            <article class="stage-card stage-card-strip">
+              <p>Realtime voice</p>
+              <p>Scene switching</p>
+              <p>Cross-device sync</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="availability" id="availability">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Release shape</p>
+            <h2>Ship the demo in two lanes, not one.</h2>
+          </div>
+          <div class="availability-grid">
+            <article class="availability-card reveal">
+              <span class="status-pill status-open">Open now</span>
+              <h3>Web demo</h3>
+              <p>
+                Public-facing entry point for the product. Best for fast testing,
+                press links, and zero-install sharing.
+              </p>
+              <ul>
+                <li>Deploy this repo directly to Cloudflare Pages</li>
+                <li>Point the primary CTA to the live demo URL</li>
+                <li>Use this page as the launch surface for updates</li>
+              </ul>
+            </article>
+            <article class="availability-card reveal">
+              <span class="status-pill status-soon">Ready when release exists</span>
+              <h3>macOS build</h3>
+              <p>
+                Keep the binary outside the repo. Publish `.zip` or `.dmg` files
+                through GitHub Releases and link them here.
+              </p>
+              <ul>
+                <li>Stable download URL via `releases/latest`</li>
+                <li>Versioned assets without polluting the source repo</li>
+                <li>Easy to swap in notarized builds later</li>
+              </ul>
+            </article>
+            <article class="availability-card reveal">
+              <span class="status-pill status-later">Later</span>
+              <h3>iPhone</h3>
+              <p>
+                Hold iOS release until you can use App Store Connect and
+                TestFlight. The page already sets that expectation clearly.
+              </p>
+              <ul>
+                <li>No sideload instructions on the public page</li>
+                <li>No fragile personal-team workflow</li>
+                <li>Clean path to TestFlight when ready</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="gallery" id="gallery">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Visual proof</p>
+            <h2>Show the product before the user asks what it does.</h2>
+          </div>
+          <div class="gallery-grid">
+            <figure class="gallery-card gallery-tall reveal">
+              <img
+                src="assets/screenshots/sakura-garden.jpg"
+                alt="Her avatar in sakura garden scene"
+              />
+              <figcaption>
+                <strong>Sakura Garden</strong>
+                <span>Soft scene lighting with a playful presentation layer.</span>
+              </figcaption>
+            </figure>
+            <figure class="gallery-card reveal">
+              <img
+                src="assets/screenshots/sunset-fullbody.jpg"
+                alt="Her avatar in sunset full-body scene"
+              />
+              <figcaption>
+                <strong>Full-body staging</strong>
+                <span>Demonstrates animation range and scene composition.</span>
+              </figcaption>
+            </figure>
+            <article class="feature-stack reveal">
+              <div>
+                <span>Voice</span>
+                <strong>Natural speech with avatar lip sync</strong>
+              </div>
+              <div>
+                <span>Presence</span>
+                <strong>Web, macOS, and Apple-platform roadmap</strong>
+              </div>
+              <div>
+                <span>Control</span>
+                <strong>Open pipeline, live routing, and device-aware replies</strong>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="notes" id="notes">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Before users click</p>
+            <h2>Set expectations once, then avoid support churn.</h2>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card reveal">
+              <h3>macOS build note</h3>
+              <p>
+                If the current release is unsigned or not notarized, say that on
+                the page and in the release notes. Users should know they may need
+                to use <em>Open Anyway</em> in macOS Security settings.
+              </p>
+            </article>
+            <article class="note-card reveal">
+              <h3>Web demo note</h3>
+              <p>
+                Once the hosted demo is live, set the URL in
+                <code>site-config.js</code>. Until then, the main CTA will stay
+                visibly disabled instead of sending users to a broken link.
+              </p>
+            </article>
+            <article class="note-card reveal">
+              <h3>Source note</h3>
+              <p>
+                Keep binaries in Releases, keep code in Git. This repo stays small,
+                deployable, and easy to update from a single branch.
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer reveal">
+        <p>Her demo release surface for web and macOS.</p>
+        <div class="footer-links">
+          <a id="source-repo-link" href="https://github.com/Entroplay-ai/Her-demo">
+            Source repo
+          </a>
+          <a
+            id="mac-release-link"
+            href="https://github.com/Entroplay-ai/Her-demo/releases/latest"
+          >
+            Latest mac release
+          </a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="site-config.js"></script>
+    <script>
+      const config = window.HER_DEMO_CONFIG || {};
+
+      const applyLinkState = (id, url, fallbackTextId, fallbackText) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        if (url) {
+          element.href = url;
+          element.removeAttribute("aria-disabled");
+          element.classList.remove("is-disabled");
+          return;
+        }
+
+        element.href = "#notes";
+        element.setAttribute("aria-disabled", "true");
+        element.classList.add("is-disabled");
+        if (fallbackTextId) {
+          const target = document.getElementById(fallbackTextId);
+          if (target) target.textContent = fallbackText;
+        }
+        if (element.dataset.emptyLabel) {
+          element.textContent = element.dataset.emptyLabel;
+        }
+      };
+
+      applyLinkState(
+        "launch-web-demo",
+        config.liveDemoUrl,
+        "web-status",
+        "Pending live URL"
+      );
+      applyLinkState("download-mac-demo", config.macDownloadUrl);
+
+      const sourceRepoLink = document.getElementById("source-repo-link");
+      if (sourceRepoLink && config.sourceUrl) {
+        sourceRepoLink.href = config.sourceUrl;
+      }
+
+      const macReleaseLink = document.getElementById("mac-release-link");
+      if (macReleaseLink && config.macDownloadUrl) {
+        macReleaseLink.href = config.macDownloadUrl;
+      }
+
+      const macStatus = document.getElementById("mac-status");
+      if (macStatus && config.macDownloadUrl) {
+        macStatus.textContent = "Live via GitHub Releases";
+      }
+    </script>
+  </body>
+</html>

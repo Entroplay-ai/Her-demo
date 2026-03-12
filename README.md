@@ -1,0 +1,81 @@
+# Her Demo
+
+Public demo landing page for `Her`, designed to be deployed as a zero-build static site on Cloudflare Pages.
+
+The page does three things:
+
+- gives you a clean public-facing entry point for the project
+- sends users to the live web demo once it exists
+- sends macOS users to the latest GitHub Release instead of storing binaries in the repo
+
+## Files
+
+- `index.html` - demo landing page
+- `styles.css` - page styling and motion
+- `site-config.js` - URLs for the live web demo and macOS download
+- `assets/screenshots/` - static screenshots used by the page
+
+## Local Preview
+
+```bash
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000`.
+
+## Configure Links
+
+Edit `site-config.js` before launch:
+
+```js
+window.HER_DEMO_CONFIG = {
+  liveDemoUrl: "https://demo.entroplay.ai",
+  macDownloadUrl: "https://github.com/Entroplay-ai/Her-demo/releases/latest",
+  sourceUrl: "https://github.com/Entroplay-ai/Her-demo",
+};
+```
+
+Behavior:
+
+- if `liveDemoUrl` is empty, the main web CTA stays disabled and points users to the release notes section instead of a broken page
+- `macDownloadUrl` should usually stay on `releases/latest` so you can publish new builds without editing the page each time
+
+## Cloudflare Pages
+
+This repo is intentionally zero-build.
+
+Recommended Pages settings:
+
+- Framework preset: `None`
+- Build command: leave blank
+- Build output directory: `/`
+- Root directory: leave blank
+
+Deployment options:
+
+1. Connect the repo with Cloudflare Pages Git integration.
+2. Or drag and drop the repo contents with Direct Upload for a one-off release.
+
+Git integration is the better long-term default because it keeps the demo page versioned and redeploys automatically on push.
+
+## macOS Release Flow
+
+Do not commit `.app`, `.zip`, or `.dmg` binaries into this repo.
+
+Use GitHub Releases instead:
+
+1. Create a new release, for example `v0.1.0-demo`
+2. Upload the macOS build asset, usually a `.zip` or `.dmg`
+3. Keep the page link pointed at:
+
+```text
+https://github.com/Entroplay-ai/Her-demo/releases/latest
+```
+
+That gives you a stable public download URL while preserving version history.
+
+## Notes for Public Launch
+
+- If the macOS build is unsigned or not notarized yet, say that clearly on the page and in the release notes.
+- When the live web demo is ready, update `liveDemoUrl` in `site-config.js`.
+- If you later move the public web demo to a separate app host, this landing page can stay on Pages and continue acting as the release surface.
