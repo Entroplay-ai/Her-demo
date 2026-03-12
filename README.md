@@ -13,7 +13,9 @@ Right now the public demo is available in two ways:
 
 ### Web
 
-If you already have the live demo page open:
+Open the public Her demo page in your browser.
+
+Then:
 
 1. Click `Launch Web Demo`
 2. Wait for the avatar scene to load
@@ -28,6 +30,8 @@ What you can use in the web demo:
 - scene switching
 
 ### macOS
+
+GitHub Releases are for the macOS app download.
 
 Download the latest Mac build here:
 
@@ -102,5 +106,6 @@ Current iPhone status:
 
 ## Release Links
 
+- Web is launched from the public Her demo page
 - Latest release page: https://github.com/Entroplay-ai/Her-demo/releases/latest
 - All releases: https://github.com/Entroplay-ai/Her-demo/releases
