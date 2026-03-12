@@ -1,134 +1,106 @@
 # Her Demo
 
-Public demo landing page for `Her`, designed to be deployed as a zero-build static site on Cloudflare Pages.
+Her is a multimodal AI companion with a 3D avatar body.
 
-The page does three things:
+Right now the public demo is available in two ways:
 
-- gives you a clean public-facing entry point for the project
-- sends users to the bundled live web demo
-- sends macOS users to the latest GitHub Release instead of storing binaries in the repo
+- `Web` demo
+- `macOS` demo
 
-Current public demo modes:
+`iPhone` is still in development. Public iPhone testing will move to TestFlight after the Apple Developer / App Store Connect setup is ready.
 
-- `Web` is live through the bundled static viewer
-- `macOS` is distributed through GitHub Releases
-- `iPhone` is still in development while Apple Developer / App Store Connect / TestFlight setup is pending
+## Start Here
 
-The bundled viewer in `viewer/` currently tracks the main app's public demo surface:
+### Web
 
-- text chat, voice input, and realtime avatar lip sync
-- `video mode` on web via camera snapshots sent to the bridge/backend
-- the same camera preset UI used by the web/mac viewer shell
-- the latest onboarding flow, including local bridge pairing and Apple-style remote tunnel pairing
+If you already have the live demo page open:
 
-## Files
+1. Click `Launch Web Demo`
+2. Wait for the avatar scene to load
+3. Start chatting
 
-- `index.html` - demo landing page
-- `styles.css` - page styling and motion
-- `site-config.js` - URLs for the live web demo and macOS download
-- `assets/screenshots/` - static screenshots used by the page
-- `viewer/` - compiled `vrm-viewer` build published as static assets
-- `scripts/sync-viewer-build.sh` - copies a fresh `vrm-viewer/dist` into `viewer/`, with optional supplemental app assets like `audio/`
+What you can use in the web demo:
 
-## Local Preview
+- text chat
+- voice input
+- video mode
+- camera presets
+- scene switching
 
-```bash
-python3 -m http.server 8000
-```
+### macOS
 
-Then open `http://localhost:8000`.
+Download the latest Mac build here:
 
-## Configure Links
+- https://github.com/Entroplay-ai/Her-demo/releases/latest
 
-Edit `site-config.js` if you need to override defaults:
+Then:
 
-```js
-window.HER_DEMO_CONFIG = {
-  liveDemoUrl: "./viewer/index.html",
-  avatarBrowserUrl: "./viewer/avatar-browser.html",
-  macDownloadUrl: "https://github.com/Entroplay-ai/Her-demo/releases/latest",
-  sourceUrl: "https://github.com/Entroplay-ai/Her-demo",
-};
-```
+1. Download `HerMac-v0.1.0-demo.zip` from the latest release
+2. Unzip it
+3. Open `HerMac.app`
 
-Behavior:
+If macOS blocks the app on first launch:
 
-- if `liveDemoUrl` is empty, the main web CTA stays disabled and points users to the notes section instead of a broken page
-- `macDownloadUrl` should usually stay on `releases/latest` so you can publish new builds without editing the page each time
+1. Open `System Settings`
+2. Go to `Privacy & Security`
+3. Find the warning about `HerMac.app`
+4. Click `Open Anyway`
+5. Launch the app again
 
-## Included Viewer Pages
+## How To Use The Demo
 
-The deployed site now includes these static viewer routes:
+### In Web
 
-- `/viewer/index.html` - main Her web viewer
-- `/viewer/avatar-browser.html` - avatar browser shell
-- `/viewer/preview.html` - preview entry
-- `/viewer/embed.html` - embed entry
-- `/viewer/bgonly.html` - background-only entry
+When the viewer opens, you can:
 
-## Cloudflare Pages
+- type in chat and press `Send`
+- click the mic button for voice input
+- click the camera button to turn on video mode
+- change scenes or camera framing when those controls are available
 
-This repo is intentionally zero-build at deploy time.
+If the demo asks you to connect a bridge:
 
-Recommended Pages settings:
+1. Paste a `wss://...` tunnel URL, or a full `her://pair...` link
+2. Press `Connect`
+3. Wait until the status changes to `Connected`
 
-- Framework preset: `None`
-- Build command: leave blank
-- Build output directory: `/`
-- Root directory: leave blank
+If the bridge disconnects later, click the connection status chip and reconnect with the same tunnel URL or pairing link.
 
-Deployment options:
+### In macOS
 
-1. Connect the repo with Cloudflare Pages Git integration.
-2. Or drag and drop the repo contents with Direct Upload for a one-off release.
+The Mac app is the same demo direction in native form. You can use it for:
 
-Git integration is the better long-term default because it keeps the demo page versioned and redeploys automatically on push.
+- text chat
+- voice mode
+- video mode
+- avatar and scene presentation
 
-## Updating the Viewer Build
+The app may ask for:
 
-Rebuild the source app in the main Her repo, then sync the static output here:
+- microphone permission for voice input
+- camera permission for video mode
 
-```bash
-cd /path/to/Her/vrm-viewer
-npm run build
+If you do not want those features, you can deny the permission and still use text mode.
 
-cd /path/to/Her-demo
-./scripts/sync-viewer-build.sh \
-  /path/to/Her/vrm-viewer/dist \
-  /path/to/Her/her-app/Shared/Resources/WebViewer
-```
+## What To Expect
 
-The sync script replaces `viewer/` with the latest compiled static build and overlays supplemental runtime assets that are shipped from the app bundle but not emitted by `vite build`.
+- `Web` is the fastest way to try Her
+- `macOS` is the better option if you want the native app feel
+- `iPhone` is not public yet
 
-## macOS Release Flow
+Current iPhone status:
 
-Do not commit `.app`, `.zip`, or `.dmg` binaries into this repo.
+- still under development
+- not on TestFlight yet
+- waiting on Apple-side release workflow
 
-Use GitHub Releases instead:
+## Known Notes
 
-1. Create a new release, for example `v0.1.0-demo`
-2. Build the mac app, for example:
+- The macOS demo may still be unsigned or not notarized, so first launch can trigger a security warning
+- The web demo may ask you for microphone or camera access depending on which mode you use
+- Some features depend on a working bridge/tunnel connection
 
-```bash
-xcodebuild \
-  -project /path/to/Her/her-app/Her.xcodeproj \
-  -scheme HerMac \
-  -configuration Release \
-  build
-```
+## Release Links
 
-3. Upload the macOS build asset, usually a `.zip` or `.dmg`
-4. Keep the page link pointed at:
-
-```text
-https://github.com/Entroplay-ai/Her-demo/releases/latest
-```
-
-That gives you a stable public download URL while preserving version history.
-
-## Notes for Public Launch
-
-- If the macOS build is unsigned or not notarized yet, say that clearly on the page and in the release notes.
-- iPhone remains under development until Apple Developer enrollment is in place for App Store Connect and TestFlight distribution.
-- When the live web demo is ready, update `liveDemoUrl` in `site-config.js`.
-- If you later move the public web demo to a separate app host, this landing page can stay on Pages and continue acting as the release surface.
+- Latest release page: https://github.com/Entroplay-ai/Her-demo/releases/latest
+- All releases: https://github.com/Entroplay-ai/Her-demo/releases
