@@ -51,10 +51,9 @@
               This demo ships the public Her clients on web and macOS. To get
               live AI responses, give <code>her-bridge</code> to whoever owns
               your OpenClaw backend, have them connect it to OpenClaw, then
-              paste the <code>wss://...</code> tunnel URL or
-              <code>her://pair?url=...</code> link that the bridge prints. The
-              iPhone build stays in development until Apple Developer and
-              TestFlight release setup is ready.
+              paste the <code>wss://...</code> tunnel URL that the bridge
+              prints. <code>iOS</code>, <code>iPad</code>, and
+              <code>iWatch</code> are still in testing.
             </p>
             <div class="cta-row">
               <a
@@ -145,7 +144,7 @@
               <ul>
                 <li>Download the latest <code>HerMac-v0.1.0-demo.zip</code> asset</li>
                 <li>Voice and video mode are available after pairing</li>
-                <li>Uses the same tunnel URL or pair link as web</li>
+                <li>Uses the same tunnel URL as web</li>
                 <li>May require <em>Open Anyway</em> on first launch</li>
               </ul>
             </article>
@@ -188,9 +187,8 @@
               <h3>2. Start the bridge</h3>
               <p>
                 Run <code>npx tsx src/index.ts start</code>. When the bridge is
-                ready, it prints both a <code>Tunnel URL: wss://...</code> line
-                and a <code>Copyable link: her://pair?url=...</code> line.
-                Either one can be used for pairing.
+                ready, it prints a <code>Tunnel URL: wss://...</code> line.
+                That is the value you use for pairing.
               </p>
             </article>
             <article class="note-card reveal">
@@ -198,9 +196,8 @@
               <p>
                 Open the web demo or the macOS app. When
                 <em>Connect to Bridge</em> appears, paste the
-                <code>wss://...</code> tunnel URL or the full
-                <code>her://pair?url=...</code> link. After the status changes
-                to <em>Connected</em>, voice, text, and video mode will use your
+                <code>wss://...</code> tunnel URL. After the status changes to
+                <em>Connected</em>, voice, text, and video mode will use your
                 OpenClaw backend through <code>her-bridge</code>.
               </p>
             </article>
@@ -270,14 +267,14 @@
               <p>
                 The browser viewer can load the avatar and interface without a
                 bridge, but it will not reach your AI backend until you pair it
-                to <code>her-bridge</code> with the tunnel URL or pairing link.
+                to <code>her-bridge</code> with the tunnel URL.
               </p>
             </article>
             <article class="note-card reveal">
-              <h3>iPhone note</h3>
+              <h3>Apple device note</h3>
               <p>
-                iPhone is not part of the public demo yet. It stays in development
-                until Apple Developer enrollment is in place for TestFlight-based testing.
+                <code>iOS</code>, <code>iPad</code>, and <code>iWatch</code>
+                are still in testing and are not part of the public demo yet.
               </p>
             </article>
           </div>

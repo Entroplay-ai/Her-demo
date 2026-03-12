@@ -7,7 +7,7 @@ Her currently has two public demo clients:
 
 Important: the web viewer and the macOS app are clients only. If you want live AI responses, hand `her-bridge` to whoever owns your OpenClaw backend, have them connect it to OpenClaw, then pair Her to the tunnel URL that `her-bridge` prints.
 
-`iPhone` is still in development. Public iPhone testing will move to TestFlight after the Apple Developer / App Store Connect setup is ready.
+`iOS`, `iPad`, and `iWatch` are still in testing.
 
 ## What You Need
 
@@ -25,9 +25,7 @@ This demo repo does not bundle `her-bridge` or an OpenClaw server for you. The b
 1. Open the hosted Her demo page in your browser.
 2. Click `Launch Web Demo`.
 3. Wait for the avatar scene to load.
-4. When `Connect to Bridge` appears, paste either:
-   - the `wss://...` tunnel URL printed by `her-bridge`
-   - the full `her://pair?url=...` link printed by `her-bridge`
+4. When `Connect to Bridge` appears, paste the `wss://...` tunnel URL printed by `her-bridge`.
 5. Press `Connect`.
 6. After the status changes to `Connected`, use text chat, voice input, or video mode.
 
@@ -54,12 +52,11 @@ Then start the bridge:
 npx tsx src/index.ts start
 ```
 
-When the bridge is ready, it prints both of these:
+When the bridge is ready, it prints:
 
 - `Tunnel URL: wss://...`
-- `Copyable link: her://pair?url=...`
 
-Use either value to pair the web viewer or the macOS app.
+Use that value to pair the web viewer or the macOS app.
 
 ## Use The macOS Demo
 
@@ -68,7 +65,7 @@ Use either value to pair the web viewer or the macOS app.
 2. Download `HerMac-v0.1.0-demo.zip`.
 3. Unzip it.
 4. Open `HerMac.app`.
-5. Pair it with the same `wss://...` tunnel URL or `her://pair?...` link from `her-bridge`.
+5. Pair it with the same `wss://...` tunnel URL from `her-bridge`.
 
 The app may ask for microphone permission for voice input and camera permission for video mode.
 
@@ -84,11 +81,11 @@ If macOS blocks the app on first launch:
 
 - Make sure `npx tsx src/index.ts start` is still running.
 - Make sure `her-bridge` successfully connected to your OpenClaw Gateway during setup and startup.
-- Use the `wss://...` tunnel URL or `her://pair?...` link printed by the bridge, not `ws://127.0.0.1:8765`, when pairing from a remote browser or another machine.
-- If the viewer disconnects later, reopen the bridge dialog and reuse the same tunnel URL or pairing link.
+- Use the `wss://...` tunnel URL printed by the bridge, not `ws://127.0.0.1:8765`, when pairing from a remote browser or another machine.
+- If the viewer disconnects later, reopen the bridge dialog and reuse the same tunnel URL.
 
 ## Platform Status
 
 - `Web` demo is live
 - `macOS` demo is live
-- `iPhone` is still in development for a future TestFlight release
+- `iOS`, `iPad`, and `iWatch` are still in testing
