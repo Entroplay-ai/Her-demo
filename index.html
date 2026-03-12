@@ -68,6 +68,13 @@
               >
                 Download Mac Demo
               </a>
+              <a
+                class="button button-secondary"
+                id="open-avatar-browser"
+                href="./viewer/avatar-browser.html"
+              >
+                Avatar Browser
+              </a>
             </div>
             <dl class="hero-meta">
               <div>
@@ -240,6 +247,9 @@
           <a id="source-repo-link" href="https://github.com/Entroplay-ai/Her-demo">
             Source repo
           </a>
+          <a id="avatar-browser-link" href="./viewer/avatar-browser.html">
+            Avatar browser
+          </a>
           <a
             id="mac-release-link"
             href="https://github.com/Entroplay-ai/Her-demo/releases/latest"
@@ -288,6 +298,16 @@
       const sourceRepoLink = document.getElementById("source-repo-link");
       if (sourceRepoLink && config.sourceUrl) {
         sourceRepoLink.href = config.sourceUrl;
+      }
+
+      const avatarBrowserLink = document.getElementById("avatar-browser-link");
+      if (avatarBrowserLink && config.avatarBrowserUrl) {
+        avatarBrowserLink.href = config.avatarBrowserUrl;
+      }
+
+      const avatarBrowserButton = document.getElementById("open-avatar-browser");
+      if (avatarBrowserButton && config.avatarBrowserUrl) {
+        avatarBrowserButton.href = config.avatarBrowserUrl;
       }
 
       const macReleaseLink = document.getElementById("mac-release-link");

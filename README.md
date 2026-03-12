@@ -5,7 +5,7 @@ Public demo landing page for `Her`, designed to be deployed as a zero-build stat
 The page does three things:
 
 - gives you a clean public-facing entry point for the project
-- sends users to the live web demo once it exists
+- sends users to the bundled live web demo
 - sends macOS users to the latest GitHub Release instead of storing binaries in the repo
 
 ## Files
@@ -14,6 +14,8 @@ The page does three things:
 - `styles.css` - page styling and motion
 - `site-config.js` - URLs for the live web demo and macOS download
 - `assets/screenshots/` - static screenshots used by the page
+- `viewer/` - compiled `vrm-viewer` build published as static assets
+- `scripts/sync-viewer-build.sh` - copies a fresh `vrm-viewer/dist` into `viewer/`
 
 ## Local Preview
 
@@ -25,11 +27,12 @@ Then open `http://localhost:8000`.
 
 ## Configure Links
 
-Edit `site-config.js` before launch:
+Edit `site-config.js` if you need to override defaults:
 
 ```js
 window.HER_DEMO_CONFIG = {
-  liveDemoUrl: "https://demo.entroplay.ai",
+  liveDemoUrl: "./viewer/index.html",
+  avatarBrowserUrl: "./viewer/avatar-browser.html",
   macDownloadUrl: "https://github.com/Entroplay-ai/Her-demo/releases/latest",
   sourceUrl: "https://github.com/Entroplay-ai/Her-demo",
 };
@@ -37,12 +40,22 @@ window.HER_DEMO_CONFIG = {
 
 Behavior:
 
-- if `liveDemoUrl` is empty, the main web CTA stays disabled and points users to the release notes section instead of a broken page
+- if `liveDemoUrl` is empty, the main web CTA stays disabled and points users to the notes section instead of a broken page
 - `macDownloadUrl` should usually stay on `releases/latest` so you can publish new builds without editing the page each time
+
+## Included Viewer Pages
+
+The deployed site now includes these static viewer routes:
+
+- `/viewer/index.html` - main Her web viewer
+- `/viewer/avatar-browser.html` - avatar browser shell
+- `/viewer/preview.html` - preview entry
+- `/viewer/embed.html` - embed entry
+- `/viewer/bgonly.html` - background-only entry
 
 ## Cloudflare Pages
 
-This repo is intentionally zero-build.
+This repo is intentionally zero-build at deploy time.
 
 Recommended Pages settings:
 
@@ -57,6 +70,20 @@ Deployment options:
 2. Or drag and drop the repo contents with Direct Upload for a one-off release.
 
 Git integration is the better long-term default because it keeps the demo page versioned and redeploys automatically on push.
+
+## Updating the Viewer Build
+
+Rebuild the source app in the main Her repo, then sync the static output here:
+
+```bash
+cd /path/to/Her/vrm-viewer
+npm run build
+
+cd /path/to/Her-demo
+./scripts/sync-viewer-build.sh /path/to/Her/vrm-viewer/dist
+```
+
+The sync script replaces `viewer/` with the latest compiled static build.
 
 ## macOS Release Flow
 
