@@ -8,12 +8,18 @@ The page does three things:
 - sends users to the bundled live web demo
 - sends macOS users to the latest GitHub Release instead of storing binaries in the repo
 
+Current public demo modes:
+
+- `Web` is live through the bundled static viewer
+- `macOS` is distributed through GitHub Releases
+- `iPhone` is still in development while Apple Developer / App Store Connect / TestFlight setup is pending
+
 The bundled viewer in `viewer/` currently tracks the main app's public demo surface:
 
 - text chat, voice input, and realtime avatar lip sync
 - `video mode` on web via camera snapshots sent to the bridge/backend
 - the same camera preset UI used by the web/mac viewer shell
-- static onboarding flows for local bridge pairing and remote tunnel pairing
+- the latest onboarding flow, including local bridge pairing and Apple-style remote tunnel pairing
 
 ## Files
 
@@ -123,5 +129,6 @@ That gives you a stable public download URL while preserving version history.
 ## Notes for Public Launch
 
 - If the macOS build is unsigned or not notarized yet, say that clearly on the page and in the release notes.
+- iPhone remains under development until Apple Developer enrollment is in place for App Store Connect and TestFlight distribution.
 - When the live web demo is ready, update `liveDemoUrl` in `site-config.js`.
 - If you later move the public web demo to a separate app host, this landing page can stay on Pages and continue acting as the release surface.

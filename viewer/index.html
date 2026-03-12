@@ -8,6 +8,7 @@
     (function() {
       const params = new URLSearchParams(window.location.search);
       const root = document.documentElement;
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
       if (params.has('embed')) {
         root.classList.add('embed-mode', 'embed-only-mode');
@@ -15,6 +16,12 @@
 
       if (params.has('meeting')) {
         root.classList.add('embed-mode', 'meeting-mode');
+      }
+
+      if (isLocalhost || params.has('studio')) {
+        root.classList.add('studio-mode');
+      } else {
+        root.classList.add('product-mode');
       }
     })();
   </script>
@@ -39,6 +46,19 @@
     html.study-mode #controls,
     html.study-mode #emotion-bar {
       display: none !important;
+    }
+
+    html.product-mode #controls {
+      display: none;
+    }
+
+    html.onboarding-open #chat-container,
+    html.onboarding-open #emotion-bar,
+    html.onboarding-open #name-card,
+    html.onboarding-open #status {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
     }
 
     #study-mode-badge {
@@ -527,43 +547,84 @@
 
     #status {
       position: fixed;
-      right: 14px;
-      bottom: 14px;
+      top: 16px;
+      right: 16px;
       z-index: 55;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-width: 36px;
-      min-height: 28px;
-      padding: 4px 8px;
+      gap: 10px;
+      min-width: 170px;
+      min-height: 52px;
+      padding: 10px 14px;
       border-radius: 999px;
       border: 1px solid rgba(242, 150, 182, 0.44);
       background: rgba(255, 245, 250, 0.8);
       backdrop-filter: blur(12px);
       box-shadow: 0 8px 18px rgba(166, 84, 126, 0.2);
-      font-size: 0;
-      color: transparent;
-      transition: transform var(--ease-ui), box-shadow var(--ease-ui);
-      pointer-events: none;
+      color: var(--text-1);
+      transition: transform var(--ease-ui), box-shadow var(--ease-ui), opacity var(--ease-ui);
+      cursor: pointer;
+      pointer-events: auto;
+      appearance: none;
+      text-align: left;
+      font-family: inherit;
+    }
+
+    #status:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(166, 84, 126, 0.22);
+    }
+
+    #status:focus-visible {
+      outline: 2px solid rgba(236, 64, 122, 0.55);
+      outline-offset: 3px;
+    }
+
+    .bridge-chip-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    #bridge-status-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(116, 91, 116, 0.88);
+    }
+
+    #bridge-status-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: #5c4360;
     }
 
     .ws-dot {
       position: relative;
       display: inline-block;
+      flex: 0 0 auto;
       width: 14px;
       height: 14px;
       border-radius: 50%;
       vertical-align: middle;
     }
 
-    .ws-dot.connected {
+    .ws-dot[data-state="connected"] {
       background: var(--ok);
       box-shadow: 0 0 0 3px rgba(126, 207, 154, 0.32);
     }
 
-    .ws-dot.disconnected {
+    .ws-dot[data-state="offline"] {
       background: var(--warn);
       box-shadow: 0 0 0 3px rgba(244, 141, 168, 0.3);
+    }
+
+    .ws-dot[data-state="connecting"],
+    .ws-dot[data-state="reconnecting"] {
+      background: #ffcc66;
+      box-shadow: 0 0 0 3px rgba(255, 204, 102, 0.26);
     }
 
     .ws-dot::after {
@@ -575,12 +636,231 @@
       line-height: 1;
     }
 
-    .ws-dot.connected::after {
+    .ws-dot[data-state="connected"]::after {
       content: "🌸";
     }
 
-    .ws-dot.disconnected::after {
+    .ws-dot[data-state="connecting"]::after,
+    .ws-dot[data-state="reconnecting"]::after {
+      content: "↻";
+      color: #7b5a20;
+      font-size: 8px;
+    }
+
+    .ws-dot[data-state="offline"]::after {
       content: "💤";
+    }
+
+    #bridge-onboarding {
+      position: fixed;
+      inset: 0;
+      z-index: 210;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), transparent 28%),
+        linear-gradient(160deg, rgba(67, 25, 54, 0.52), rgba(33, 16, 34, 0.62));
+      backdrop-filter: blur(14px) saturate(120%);
+    }
+
+    #bridge-onboarding[hidden] {
+      display: none !important;
+    }
+
+    #bridge-onboarding-card {
+      position: relative;
+      width: min(560px, calc(100vw - 32px));
+      overflow: hidden;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background:
+        linear-gradient(145deg, rgba(255, 248, 252, 0.92), rgba(255, 236, 246, 0.88));
+      box-shadow:
+        0 30px 80px rgba(40, 12, 34, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    #bridge-onboarding-card::before,
+    #bridge-onboarding-card::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+      filter: blur(1px);
+      opacity: 0.7;
+    }
+
+    #bridge-onboarding-card::before {
+      width: 220px;
+      height: 220px;
+      right: -40px;
+      top: -70px;
+      background: radial-gradient(circle, rgba(240, 98, 146, 0.22), transparent 70%);
+    }
+
+    #bridge-onboarding-card::after {
+      width: 180px;
+      height: 180px;
+      left: -30px;
+      bottom: -70px;
+      background: radial-gradient(circle, rgba(160, 132, 255, 0.18), transparent 72%);
+    }
+
+    .bridge-panel {
+      position: relative;
+      z-index: 1;
+      padding: 28px 28px 26px;
+    }
+
+    .bridge-progress {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(236, 128, 160, 0.16);
+    }
+
+    .bridge-step-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(190, 146, 170, 0.28);
+      transition: transform var(--ease-ui), background var(--ease-ui), box-shadow var(--ease-ui);
+    }
+
+    .bridge-step-dot.is-active {
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(236, 64, 122, 0.14);
+      transform: scale(1.05);
+    }
+
+    .bridge-step {
+      display: grid;
+      gap: 16px;
+    }
+
+    .bridge-kicker {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(120, 84, 111, 0.7);
+    }
+
+    .bridge-title {
+      max-width: 12ch;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: #56344f;
+    }
+
+    .bridge-title.bridge-title-compact {
+      max-width: 16ch;
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+    }
+
+    .bridge-copy {
+      max-width: 42ch;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(92, 67, 96, 0.88);
+    }
+
+    .bridge-input-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(120, 84, 111, 0.78);
+    }
+
+    .bridge-input {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(236, 128, 160, 0.28);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      color: #4b2f44;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: "SF Mono", "JetBrains Mono", "Monaco", monospace;
+      outline: none;
+    }
+
+    .bridge-input:focus {
+      border-color: rgba(236, 64, 122, 0.45);
+      box-shadow: 0 0 0 5px rgba(236, 64, 122, 0.1);
+    }
+
+    .bridge-status-line {
+      min-height: 20px;
+      font-size: 12px;
+      color: rgba(116, 91, 116, 0.84);
+    }
+
+    .bridge-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bridge-primary-btn,
+    .bridge-secondary-btn,
+    .bridge-text-btn {
+      border: none;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+      transition: transform var(--ease-ui), box-shadow var(--ease-ui), background var(--ease-ui), color var(--ease-ui);
+    }
+
+    .bridge-primary-btn {
+      min-width: 140px;
+      padding: 13px 20px;
+      background: linear-gradient(135deg, #ec407a, #f06292);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 16px 28px rgba(236, 64, 122, 0.22);
+    }
+
+    .bridge-primary-btn:hover,
+    .bridge-secondary-btn:hover,
+    .bridge-text-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .bridge-secondary-btn {
+      padding: 13px 18px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #5c4360;
+      font-size: 14px;
+      font-weight: 800;
+      border: 1px solid rgba(236, 128, 160, 0.22);
+    }
+
+    .bridge-text-btn {
+      padding: 0;
+      background: transparent;
+      color: rgba(108, 79, 106, 0.78);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .bridge-note-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
     }
 
     #chat-container {
@@ -994,8 +1274,17 @@
       }
 
       #status {
+        top: 12px;
         right: 12px;
-        bottom: calc(42vh + 22px);
+        bottom: auto;
+      }
+
+      #bridge-onboarding {
+        padding: 16px;
+      }
+
+      .bridge-panel {
+        padding: 24px 20px 22px;
       }
     }
 
@@ -1040,13 +1329,31 @@
       }
 
       #status {
-        bottom: calc(36vh + 18px);
+        top: 12px;
+        right: 12px;
+        min-width: 154px;
+        min-height: 48px;
+        padding: 9px 12px;
+      }
+
+      .bridge-title {
+        max-width: none;
+      }
+
+      .bridge-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .bridge-note-row {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
-  <script type="module" crossorigin src="./assets/main-DOiVkcuD.js"></script>
+  <script type="module" crossorigin src="./assets/main-CD3iC5E2.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/three-vrm-animation.module-DMd_PPkE.js">
-  <link rel="modulepreload" crossorigin href="./assets/viewer-autoload-BlggXveZ.js">
+  <link rel="modulepreload" crossorigin href="./assets/viewer-autoload-C7tx4kI3.js">
 </head>
 <body>
   <div id="animated-bg"></div>
@@ -1055,30 +1362,49 @@
 
   <div id="study-mode-badge">📖 Study Mode</div>
 
-  <!-- Transport pairing overlay (shown when no saved connection + not localhost) -->
-  <div id="pairing-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(6px);">
-    <div id="pairing-card" style="background:var(--panel-bg,rgba(255,240,245,0.95));border:1px solid var(--panel-border,rgba(236,128,160,0.35));border-radius:20px;padding:28px 32px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">
-      <div style="font-size:1.1rem;font-weight:700;color:var(--text-1,#4a3548);margin-bottom:6px;">Connect to Her</div>
-      <div style="font-size:12px;color:var(--text-2,#888);margin-bottom:14px;">Choose how to connect to her-bridge</div>
-      <!-- Transport mode tabs -->
-      <div id="transport-tabs" style="display:flex;gap:0;margin-bottom:16px;border-radius:10px;overflow:hidden;border:1px solid var(--panel-border,rgba(236,128,160,0.35));">
-        <button id="tab-local" type="button" style="flex:1;padding:8px 0;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--accent,#ec407a);color:#fff;transition:all 0.2s;">Local WS</button>
-        <button id="tab-remote" type="button" style="flex:1;padding:8px 0;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text-2,#888);transition:all 0.2s;">Remote Tunnel</button>
+  <div id="bridge-onboarding" hidden aria-hidden="true">
+    <div id="bridge-onboarding-card">
+      <div class="bridge-panel">
+        <div class="bridge-progress" aria-hidden="true">
+          <span class="bridge-step-dot" id="bridge-step-dot-welcome"></span>
+          <span class="bridge-step-dot" id="bridge-step-dot-connect"></span>
+        </div>
+
+        <section class="bridge-step" id="bridge-step-welcome">
+          <p class="bridge-kicker">Web Onboarding</p>
+          <h1 class="bridge-title">Bring Her online.</h1>
+          <p class="bridge-copy">Connect this web stage to the same her-bridge tunnel used by iPhone and macOS. Once paired, reconnects and tunnel migration are automatic.</p>
+          <div class="bridge-actions">
+            <button id="bridge-welcome-continue-btn" class="bridge-primary-btn" type="button">Continue</button>
+            <button id="bridge-welcome-offline-btn" class="bridge-text-btn" type="button">Continue Offline</button>
+          </div>
+        </section>
+
+        <section class="bridge-step" id="bridge-step-connect" hidden>
+          <p class="bridge-kicker">Connect to Bridge</p>
+          <h2 class="bridge-title bridge-title-compact">Paste a tunnel URL or pairing link.</h2>
+          <p class="bridge-copy" id="bridge-pairing-caption"></p>
+          <label class="bridge-input-label" for="bridge-pairing-input">Tunnel URL / Pair Link</label>
+          <input
+            id="bridge-pairing-input"
+            class="bridge-input"
+            type="text"
+            placeholder="wss://device-tunnel.entroplay.ai or her://pair?url=..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div id="bridge-pairing-status" class="bridge-status-line"></div>
+          <div class="bridge-actions">
+            <button id="bridge-connect-btn" class="bridge-primary-btn" type="button">Connect</button>
+            <button id="bridge-paste-btn" class="bridge-secondary-btn" type="button">Paste</button>
+          </div>
+          <div class="bridge-note-row">
+            <button id="bridge-connect-back-btn" class="bridge-text-btn" type="button">Back</button>
+            <button id="bridge-connect-later-btn" class="bridge-text-btn" type="button">Continue Offline</button>
+            <button id="bridge-forget-btn" class="bridge-text-btn" type="button" hidden>Forget Saved Bridge</button>
+          </div>
+        </section>
       </div>
-      <!-- Local WS panel -->
-      <div id="panel-local">
-        <input id="pairing-ws-port" type="text" placeholder="WS port (default: 8765)" value="8765" style="width:100%;box-sizing:border-box;padding:8px 12px;border-radius:10px;border:1px solid var(--panel-border,rgba(236,128,160,0.35));background:transparent;color:var(--text-1,#333);font-size:12px;margin-bottom:12px;" />
-        <button id="pairing-local-connect-btn" style="background:var(--accent,#ec407a);color:#fff;border:none;border-radius:12px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;width:100%;">Connect</button>
-      </div>
-      <!-- Remote tunnel panel -->
-      <div id="panel-remote" style="display:none;">
-        <input id="pairing-invite-code" type="text" placeholder="Invite code" style="width:100%;box-sizing:border-box;padding:8px 12px;border-radius:10px;border:1px solid var(--panel-border,rgba(236,128,160,0.35));background:transparent;color:var(--text-1,#333);font-size:12px;margin-bottom:8px;" />
-        <input id="pairing-tunnel-url" type="text" placeholder="Tunnel URL (e.g. abc123-tunnel.entroplay.ai)" style="width:100%;box-sizing:border-box;padding:8px 12px;border-radius:10px;border:1px solid var(--panel-border,rgba(236,128,160,0.35));background:transparent;color:var(--text-1,#333);font-size:12px;margin-bottom:8px;" />
-        <input id="pairing-api-url" type="text" placeholder="API URL (e.g. https://tunnel-api.entroplay.ai)" style="width:100%;box-sizing:border-box;padding:8px 12px;border-radius:10px;border:1px solid var(--panel-border,rgba(236,128,160,0.35));background:transparent;color:var(--text-1,#333);font-size:12px;margin-bottom:12px;" />
-        <button id="pairing-connect-btn" style="background:var(--accent,#ec407a);color:#fff;border:none;border-radius:12px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;width:100%;">Connect</button>
-      </div>
-      <div id="pairing-status" style="font-size:11px;color:var(--text-2,#888);margin-top:10px;min-height:16px;"></div>
-      <button id="pairing-skip-btn" style="background:none;border:none;color:var(--text-2,#888);font-size:11px;cursor:pointer;margin-top:8px;text-decoration:underline;">Skip (use default local WS)</button>
     </div>
   </div>
 
@@ -1203,7 +1529,6 @@
         <label><input type="checkbox" id="mouse-look" checked> Mouse Look</label>
         <label><input type="checkbox" id="transparent-bg"> Transparent BG</label>
         <label><input type="checkbox" id="learning-mode"> Learning Mode</label>
-        <button id="change-bridge-btn" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:8px;border:1px solid var(--panel-border);background:transparent;color:var(--text-2);cursor:pointer;">Change Bridge</button>
       </div>
     </div>
   </div>
@@ -1228,6 +1553,12 @@
     </div>
   </div>
 
-  <div id="status"><span class="ws-dot disconnected" id="ws-dot"></span>WS: disconnected</div>
+  <button id="status" type="button" aria-label="Open bridge settings">
+    <span class="ws-dot" id="ws-dot" data-state="offline"></span>
+    <span class="bridge-chip-copy">
+      <span id="bridge-status-label">Her Bridge</span>
+      <span id="bridge-status-text">Offline</span>
+    </span>
+  </button>
 </body>
 </html>
