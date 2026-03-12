@@ -6,12 +6,12 @@
     <title>Her Demo</title>
     <meta
       name="description"
-      content="Her is a multimodal AI companion with a 3D avatar body. Launch the web demo, download the macOS build, and see what ships next."
+      content="Her is a multimodal AI companion with a 3D avatar body, voice, and video mode. Launch the web demo, download the macOS build, and see what ships next."
     />
     <meta property="og:title" content="Her Demo" />
     <meta
       property="og:description"
-      content="A release-ready demo page for Her across web and macOS."
+      content="A release-ready demo page for Her across web and macOS, including voice, avatar motion, and video mode."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/screenshots/default-view.jpg" />
@@ -49,8 +49,8 @@
             <h1>Give your AI a body, a voice, and a stage.</h1>
             <p class="hero-text">
               Her turns an AI assistant into a living avatar with voice, motion,
-              lip sync, and cross-device presence. This page is the public demo
-              entry point for the web experience and the macOS build.
+              lip sync, video mode, and cross-device presence. This page is the
+              public demo entry point for the web experience and the macOS build.
             </p>
             <div class="cta-row">
               <a
@@ -100,7 +100,7 @@
               />
               <div class="stage-card-copy">
                 <p>Web viewer</p>
-                <strong>3D avatar, lip sync, camera presets, emotion bar</strong>
+                <strong>3D avatar, lip sync, video mode, camera presets</strong>
               </div>
             </article>
             <article class="stage-card stage-card-side">
@@ -111,6 +111,7 @@
             </article>
             <article class="stage-card stage-card-strip">
               <p>Realtime voice</p>
+              <p>Video mode snapshots</p>
               <p>Scene switching</p>
               <p>Cross-device sync</p>
             </article>
@@ -132,6 +133,7 @@
               </p>
               <ul>
                 <li>Deploy this repo directly to Cloudflare Pages</li>
+                <li>Bundled viewer includes text, voice, and video mode</li>
                 <li>Point the primary CTA to the live demo URL</li>
                 <li>Use this page as the launch surface for updates</li>
               </ul>
@@ -141,9 +143,11 @@
               <h3>macOS build</h3>
               <p>
                 Keep the binary outside the repo. Publish `.zip` or `.dmg` files
-                through GitHub Releases and link them here.
+                through GitHub Releases and link them here after a `HerMac`
+                release build.
               </p>
               <ul>
+                <li>Current app parity includes voice and video mode support</li>
                 <li>Stable download URL via `releases/latest`</li>
                 <li>Versioned assets without polluting the source repo</li>
                 <li>Easy to swap in notarized builds later</li>
@@ -197,12 +201,12 @@
                 <strong>Natural speech with avatar lip sync</strong>
               </div>
               <div>
-                <span>Presence</span>
-                <strong>Web, macOS, and Apple-platform roadmap</strong>
+                <span>Video</span>
+                <strong>Camera snapshots streamed into the same bridge flow</strong>
               </div>
               <div>
-                <span>Control</span>
-                <strong>Open pipeline, live routing, and device-aware replies</strong>
+                <span>Presence</span>
+                <strong>Web, macOS, and device-aware interaction routing</strong>
               </div>
             </article>
           </div>
@@ -227,7 +231,8 @@
               <p>
                 Once the hosted demo is live, set the URL in
                 <code>site-config.js</code>. Until then, the main CTA will stay
-                visibly disabled instead of sending users to a broken link.
+                visibly disabled instead of sending users to a broken link. The
+                bundled viewer already includes the current voice and video mode UI.
               </p>
             </article>
             <article class="note-card reveal">

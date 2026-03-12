@@ -829,7 +829,8 @@
     }
 
     #chat-send-btn,
-    #mic-btn {
+    #mic-btn,
+    #camera-btn {
       border: 1px solid rgba(236, 64, 122, 0.45);
       background: linear-gradient(135deg, #f8a8c4, #ec407a);
       color: #fff;
@@ -843,20 +844,27 @@
     }
 
     #chat-send-btn:hover,
-    #mic-btn:hover {
+    #mic-btn:hover,
+    #camera-btn:hover {
       transform: translateY(-2px) scale(1.06);
       filter: brightness(1.06);
       box-shadow: 0 14px 26px rgba(225, 76, 128, 0.38);
     }
 
     #chat-send-btn:active,
-    #mic-btn:active {
+    #mic-btn:active,
+    #camera-btn:active {
       transform: translateY(0) scale(0.95);
     }
 
     #mic-btn.recording {
       background: linear-gradient(135deg, #ff90b5, #ec407a);
       animation: pulse-mic 1.2s ease-in-out infinite;
+    }
+
+    #camera-btn.active {
+      background: linear-gradient(135deg, #ff90b5, #ec407a);
+      box-shadow: 0 10px 22px rgba(225, 76, 128, 0.34);
     }
 
     #model-prompt {
@@ -1036,7 +1044,7 @@
       }
     }
   </style>
-  <script type="module" crossorigin src="./assets/main-DH8HrR4r.js"></script>
+  <script type="module" crossorigin src="./assets/main-DOiVkcuD.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/three-vrm-animation.module-DMd_PPkE.js">
   <link rel="modulepreload" crossorigin href="./assets/viewer-autoload-BlggXveZ.js">
 </head>
@@ -1214,6 +1222,7 @@
     <div id="chat-messages"></div>
     <div id="chat-input-row">
       <input type="text" id="chat-input" placeholder="Say something sweet..." />
+      <button id="camera-btn" title="Video mode">📷</button>
       <button id="mic-btn" title="Voice input">🎙️</button>
       <button id="chat-send-btn">Send</button>
     </div>

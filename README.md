@@ -8,6 +8,13 @@ The page does three things:
 - sends users to the bundled live web demo
 - sends macOS users to the latest GitHub Release instead of storing binaries in the repo
 
+The bundled viewer in `viewer/` currently tracks the main app's public demo surface:
+
+- text chat, voice input, and realtime avatar lip sync
+- `video mode` on web via camera snapshots sent to the bridge/backend
+- the same camera preset UI used by the web/mac viewer shell
+- static onboarding flows for local bridge pairing and remote tunnel pairing
+
 ## Files
 
 - `index.html` - demo landing page
@@ -15,7 +22,7 @@ The page does three things:
 - `site-config.js` - URLs for the live web demo and macOS download
 - `assets/screenshots/` - static screenshots used by the page
 - `viewer/` - compiled `vrm-viewer` build published as static assets
-- `scripts/sync-viewer-build.sh` - copies a fresh `vrm-viewer/dist` into `viewer/`
+- `scripts/sync-viewer-build.sh` - copies a fresh `vrm-viewer/dist` into `viewer/`, with optional supplemental app assets like `audio/`
 
 ## Local Preview
 
@@ -80,10 +87,12 @@ cd /path/to/Her/vrm-viewer
 npm run build
 
 cd /path/to/Her-demo
-./scripts/sync-viewer-build.sh /path/to/Her/vrm-viewer/dist
+./scripts/sync-viewer-build.sh \
+  /path/to/Her/vrm-viewer/dist \
+  /path/to/Her/her-app/Shared/Resources/WebViewer
 ```
 
-The sync script replaces `viewer/` with the latest compiled static build.
+The sync script replaces `viewer/` with the latest compiled static build and overlays supplemental runtime assets that are shipped from the app bundle but not emitted by `vite build`.
 
 ## macOS Release Flow
 
@@ -92,8 +101,18 @@ Do not commit `.app`, `.zip`, or `.dmg` binaries into this repo.
 Use GitHub Releases instead:
 
 1. Create a new release, for example `v0.1.0-demo`
-2. Upload the macOS build asset, usually a `.zip` or `.dmg`
-3. Keep the page link pointed at:
+2. Build the mac app, for example:
+
+```bash
+xcodebuild \
+  -project /path/to/Her/her-app/Her.xcodeproj \
+  -scheme HerMac \
+  -configuration Release \
+  build
+```
+
+3. Upload the macOS build asset, usually a `.zip` or `.dmg`
+4. Keep the page link pointed at:
 
 ```text
 https://github.com/Entroplay-ai/Her-demo/releases/latest
