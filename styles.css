@@ -76,6 +76,7 @@ code {
 .site-header,
 .hero,
 .availability,
+.pairing,
 .gallery,
 .notes,
 .site-footer {
@@ -368,6 +369,7 @@ code {
 }
 
 .availability,
+.pairing,
 .gallery,
 .notes {
   padding: 2rem 0 0;

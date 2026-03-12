@@ -6,12 +6,12 @@
     <title>Her Demo</title>
     <meta
       name="description"
-      content="Her is a multimodal AI companion with web and macOS demos live now. Launch the web viewer, download the Mac app, and follow iPhone development as TestFlight setup is completed."
+      content="Her ships web and macOS demo clients today. To get live AI responses, pair them with your own her-bridge tunnel connected to OpenClaw."
     />
     <meta property="og:title" content="Her Demo" />
     <meta
       property="og:description"
-      content="Her demo page with live web and macOS builds, plus iPhone development status while Apple/TestFlight setup is still in progress."
+      content="Her demo page for the web viewer and macOS app, with clear setup steps for pairing them to your own her-bridge and OpenClaw backend."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/screenshots/default-view.jpg" />
@@ -37,7 +37,7 @@
         </a>
         <nav class="top-nav" aria-label="Primary">
           <a href="#availability">Availability</a>
-          <a href="#gallery">Gallery</a>
+          <a href="#pairing">Pairing</a>
           <a href="#notes">Notes</a>
         </nav>
       </header>
@@ -45,13 +45,16 @@
       <main id="top">
         <section class="hero">
           <div class="hero-copy reveal">
-            <p class="eyebrow">Multimodal companion on web and macOS</p>
-            <h1>Give your AI a body, a voice, and a stage.</h1>
+            <p class="eyebrow">Web and macOS clients for your own OpenClaw backend</p>
+            <h1>Pair Her to your bridge, then talk.</h1>
             <p class="hero-text">
-              Her turns an AI assistant into a living avatar with voice, motion,
-              lip sync, video mode, and cross-device presence. The public demo
-              is available now on web and macOS, while the iPhone build stays in
-              development until Apple Developer and TestFlight release setup is ready.
+              This demo ships the public Her clients on web and macOS. To get
+              live AI responses, give <code>her-bridge</code> to whoever owns
+              your OpenClaw backend, have them connect it to OpenClaw, then
+              paste the <code>wss://...</code> tunnel URL or
+              <code>her://pair?url=...</code> link that the bridge prints. The
+              iPhone build stays in development until Apple Developer and
+              TestFlight release setup is ready.
             </p>
             <div class="cta-row">
               <a
@@ -69,26 +72,19 @@
               >
                 Download Mac Demo
               </a>
-              <a
-                class="button button-secondary"
-                id="open-avatar-browser"
-                href="./viewer/avatar-browser.html"
-              >
-                Avatar Browser
-              </a>
             </div>
             <dl class="hero-meta">
               <div>
                 <dt>Web</dt>
-                <dd id="web-status">Live now</dd>
+                <dd id="web-status">Client ready to pair</dd>
               </div>
               <div>
                 <dt>macOS</dt>
                 <dd id="mac-status">Release live</dd>
               </div>
               <div>
-                <dt>iOS</dt>
-                <dd>In development pending Apple Developer and TestFlight</dd>
+                <dt>Backend</dt>
+                <dd>Bring your own <code>her-bridge</code> plus OpenClaw</dd>
               </div>
             </dl>
           </div>
@@ -121,52 +117,92 @@
 
         <section class="availability" id="availability">
           <div class="section-heading reveal">
-            <p class="eyebrow">Release shape</p>
-            <h2>Ship the demo in two lanes, not one.</h2>
+            <p class="eyebrow">What is live</p>
+            <h2>The public demo has two clients and one required backend.</h2>
           </div>
           <div class="availability-grid">
             <article class="availability-card reveal">
               <span class="status-pill status-open">Open now</span>
-              <h3>Web demo</h3>
+              <h3>Web client</h3>
               <p>
-                Public-facing entry point for the product. Best for fast testing,
-                press links, and zero-install sharing.
+                Fastest way to try Her in a browser. Open the viewer, then pair
+                it to your bridge when the connection dialog appears.
               </p>
               <ul>
-                <li>Deploy this repo directly to Cloudflare Pages</li>
-                <li>Bundled viewer includes text, voice, and video mode</li>
-                <li>Point the primary CTA to the live demo URL</li>
-                <li>Use this page as the launch surface for updates</li>
+                <li>Text chat, voice input, and video mode are already bundled</li>
+                <li>Pair with the <code>wss://...</code> tunnel URL from <code>her-bridge</code></li>
+                <li>No install required</li>
+                <li>Best for sharing a quick demo link</li>
               </ul>
             </article>
             <article class="availability-card reveal">
               <span class="status-pill status-open">Open now</span>
-              <h3>macOS build</h3>
+              <h3>macOS client</h3>
               <p>
-                Keep the binary outside the repo. Publish `.zip` or `.dmg` files
-                through GitHub Releases and link them here so the download stays
-                stable as the app keeps changing.
+                Native app download distributed through GitHub Releases. It uses
+                the same bridge pairing flow as the web viewer.
               </p>
               <ul>
-                <li>Current app parity includes voice and video mode support</li>
-                <li>Stable download URL via `releases/latest`</li>
-                <li>Versioned assets without polluting the source repo</li>
-                <li>Easy to swap in notarized builds later</li>
+                <li>Download the latest <code>HerMac-v0.1.0-demo.zip</code> asset</li>
+                <li>Voice and video mode are available after pairing</li>
+                <li>Uses the same tunnel URL or pair link as web</li>
+                <li>May require <em>Open Anyway</em> on first launch</li>
               </ul>
             </article>
             <article class="availability-card reveal">
-              <span class="status-pill status-later">In development</span>
-              <h3>iPhone</h3>
+              <span class="status-pill status-soon">Required</span>
+              <h3>Your backend</h3>
               <p>
-                iPhone release is still under development because public
-                distribution needs Apple Developer enrollment plus the
-                App Store Connect and TestFlight pipeline.
+                Her does not talk directly to OpenClaw from this static demo
+                repo. You need your own <code>her-bridge</code> instance in
+                front of your own OpenClaw Gateway, configured by whoever runs
+                your backend.
               </p>
               <ul>
-                <li>No sideload instructions on the public page</li>
-                <li>No fragile personal-team workflow</li>
-                <li>Clean path to TestFlight once the Apple side is ready</li>
+                <li>Run <code>npx tsx src/index.ts setup</code> in <code>her-bridge/</code></li>
+                <li>Enter your OpenClaw gateway URL and token</li>
+                <li>Start the bridge and copy the printed tunnel URL</li>
+                <li>Paste that link into web or macOS to pair</li>
               </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="pairing" id="pairing">
+          <div class="section-heading reveal">
+            <p class="eyebrow">How pairing works</p>
+            <h2>Set up the bridge once, then use the same link everywhere.</h2>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card reveal">
+              <h3>1. Set up her-bridge</h3>
+              <p>
+                On the machine that can reach OpenClaw, give the backend owner
+                <code>her-bridge/</code>, run <code>npm install</code>, then run
+                <code>npx tsx src/index.ts setup</code>. Enter the OpenClaw
+                gateway URL and token. If you want remote web/macOS pairing,
+                also enter the tunnel API URL and invite code.
+              </p>
+            </article>
+            <article class="note-card reveal">
+              <h3>2. Start the bridge</h3>
+              <p>
+                Run <code>npx tsx src/index.ts start</code>. When the bridge is
+                ready, it prints both a <code>Tunnel URL: wss://...</code> line
+                and a <code>Copyable link: her://pair?url=...</code> line.
+                Either one can be used for pairing.
+              </p>
+            </article>
+            <article class="note-card reveal">
+              <h3>3. Pair web or macOS</h3>
+              <p>
+                Open the web demo or the macOS app. When
+                <em>Connect to Bridge</em> appears, paste the
+                <code>wss://...</code> tunnel URL or the full
+                <code>her://pair?url=...</code> link. After the status changes
+                to <em>Connected</em>, voice, text, and video mode will use your
+                OpenClaw backend through <code>her-bridge</code>.
+              </p>
             </article>
           </div>
         </section>
@@ -223,18 +259,18 @@
             <article class="note-card reveal">
               <h3>macOS build note</h3>
               <p>
-                The current macOS demo is distributed through GitHub Releases. If
-                it is unsigned or not notarized, say that on the page and in the
-                release notes so users know they may need to use <em>Open Anyway</em>.
+                The current macOS demo is distributed through GitHub Releases.
+                If it is unsigned or not notarized, macOS can block the first
+                launch until you use <em>Open Anyway</em> in
+                <em>Privacy &amp; Security</em>.
               </p>
             </article>
             <article class="note-card reveal">
               <h3>Web demo note</h3>
               <p>
-                Once the hosted demo is live, set the URL in
-                <code>site-config.js</code>. Until then, the main CTA will stay
-                visibly disabled instead of sending users to a broken link. The
-                bundled viewer already includes the current voice and video mode UI.
+                The browser viewer can load the avatar and interface without a
+                bridge, but it will not reach your AI backend until you pair it
+                to <code>her-bridge</code> with the tunnel URL or pairing link.
               </p>
             </article>
             <article class="note-card reveal">
@@ -249,13 +285,10 @@
       </main>
 
       <footer class="site-footer reveal">
-        <p>Her demo release surface for web and macOS.</p>
+        <p>Her demo ships web and macOS clients that pair to your own her-bridge.</p>
         <div class="footer-links">
           <a id="source-repo-link" href="https://github.com/Entroplay-ai/Her-demo">
-            Source repo
-          </a>
-          <a id="avatar-browser-link" href="./viewer/avatar-browser.html">
-            Avatar browser
+            Demo repo
           </a>
           <a
             id="mac-release-link"
@@ -305,16 +338,6 @@
       const sourceRepoLink = document.getElementById("source-repo-link");
       if (sourceRepoLink && config.sourceUrl) {
         sourceRepoLink.href = config.sourceUrl;
-      }
-
-      const avatarBrowserLink = document.getElementById("avatar-browser-link");
-      if (avatarBrowserLink && config.avatarBrowserUrl) {
-        avatarBrowserLink.href = config.avatarBrowserUrl;
-      }
-
-      const avatarBrowserButton = document.getElementById("open-avatar-browser");
-      if (avatarBrowserButton && config.avatarBrowserUrl) {
-        avatarBrowserButton.href = config.avatarBrowserUrl;
       }
 
       const macReleaseLink = document.getElementById("mac-release-link");

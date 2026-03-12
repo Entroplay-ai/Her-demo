@@ -1,47 +1,76 @@
 # Her Demo
 
-Her is a multimodal AI companion with a 3D avatar body.
+Her currently has two public demo clients:
 
-Right now the public demo is available in two ways:
+- `Web`
+- `macOS`
 
-- `Web` demo
-- `macOS` demo
+Important: the web viewer and the macOS app are clients only. If you want live AI responses, hand `her-bridge` to whoever owns your OpenClaw backend, have them connect it to OpenClaw, then pair Her to the tunnel URL that `her-bridge` prints.
 
 `iPhone` is still in development. Public iPhone testing will move to TestFlight after the Apple Developer / App Store Connect setup is ready.
 
-## Start Here
+## What You Need
 
-### Web
+Before expecting the demo to talk to your AI backend, prepare:
 
-Open the public Her demo page in your browser.
+- an OpenClaw Gateway you can reach
+- a valid OpenClaw gateway token
+- a machine where you can run `her-bridge`
+- optional tunnel credentials if you want remote pairing from web or macOS
 
-Then:
+This demo repo does not bundle `her-bridge` or an OpenClaw server for you. The bridge has to be set up on the backend side.
 
-1. Click `Launch Web Demo`
-2. Wait for the avatar scene to load
-3. Start chatting
+## Use The Web Demo
 
-What you can use in the web demo:
+1. Open the hosted Her demo page in your browser.
+2. Click `Launch Web Demo`.
+3. Wait for the avatar scene to load.
+4. When `Connect to Bridge` appears, paste either:
+   - the `wss://...` tunnel URL printed by `her-bridge`
+   - the full `her://pair?url=...` link printed by `her-bridge`
+5. Press `Connect`.
+6. After the status changes to `Connected`, use text chat, voice input, or video mode.
 
-- text chat
-- voice input
-- video mode
-- camera presets
-- scene switching
+Without a bridge connection, the web viewer can still load the avatar and interface, but it will not talk to your OpenClaw backend.
 
-### macOS
+## Connect To Your Own OpenClaw Backend
 
-GitHub Releases are for the macOS app download.
+Give `her-bridge/` to the person or machine that owns your OpenClaw backend. On that backend machine, run:
 
-Download the latest Mac build here:
+```bash
+npm install
+npx tsx src/index.ts setup
+```
 
-- https://github.com/Entroplay-ai/Her-demo/releases/latest
+During setup, enter:
 
-Then:
+- `OpenClaw gateway URL`
+- `OpenClaw gateway token`
+- `Tunnel API URL` and `Invite code` if you want remote web/macOS pairing
 
-1. Download `HerMac-v0.1.0-demo.zip` from the latest release
-2. Unzip it
-3. Open `HerMac.app`
+Then start the bridge:
+
+```bash
+npx tsx src/index.ts start
+```
+
+When the bridge is ready, it prints both of these:
+
+- `Tunnel URL: wss://...`
+- `Copyable link: her://pair?url=...`
+
+Use either value to pair the web viewer or the macOS app.
+
+## Use The macOS Demo
+
+1. Open the latest release:
+   - https://github.com/Entroplay-ai/Her-demo/releases/latest
+2. Download `HerMac-v0.1.0-demo.zip`.
+3. Unzip it.
+4. Open `HerMac.app`.
+5. Pair it with the same `wss://...` tunnel URL or `her://pair?...` link from `her-bridge`.
+
+The app may ask for microphone permission for voice input and camera permission for video mode.
 
 If macOS blocks the app on first launch:
 
@@ -51,61 +80,15 @@ If macOS blocks the app on first launch:
 4. Click `Open Anyway`
 5. Launch the app again
 
-## How To Use The Demo
+## If Pairing Fails
 
-### In Web
+- Make sure `npx tsx src/index.ts start` is still running.
+- Make sure `her-bridge` successfully connected to your OpenClaw Gateway during setup and startup.
+- Use the `wss://...` tunnel URL or `her://pair?...` link printed by the bridge, not `ws://127.0.0.1:8765`, when pairing from a remote browser or another machine.
+- If the viewer disconnects later, reopen the bridge dialog and reuse the same tunnel URL or pairing link.
 
-When the viewer opens, you can:
+## Platform Status
 
-- type in chat and press `Send`
-- click the mic button for voice input
-- click the camera button to turn on video mode
-- change scenes or camera framing when those controls are available
-
-If the demo asks you to connect a bridge:
-
-1. Paste a `wss://...` tunnel URL, or a full `her://pair...` link
-2. Press `Connect`
-3. Wait until the status changes to `Connected`
-
-If the bridge disconnects later, click the connection status chip and reconnect with the same tunnel URL or pairing link.
-
-### In macOS
-
-The Mac app is the same demo direction in native form. You can use it for:
-
-- text chat
-- voice mode
-- video mode
-- avatar and scene presentation
-
-The app may ask for:
-
-- microphone permission for voice input
-- camera permission for video mode
-
-If you do not want those features, you can deny the permission and still use text mode.
-
-## What To Expect
-
-- `Web` is the fastest way to try Her
-- `macOS` is the better option if you want the native app feel
-- `iPhone` is not public yet
-
-Current iPhone status:
-
-- still under development
-- not on TestFlight yet
-- waiting on Apple-side release workflow
-
-## Known Notes
-
-- The macOS demo may still be unsigned or not notarized, so first launch can trigger a security warning
-- The web demo may ask you for microphone or camera access depending on which mode you use
-- Some features depend on a working bridge/tunnel connection
-
-## Release Links
-
-- Web is launched from the public Her demo page
-- Latest release page: https://github.com/Entroplay-ai/Her-demo/releases/latest
-- All releases: https://github.com/Entroplay-ai/Her-demo/releases
+- `Web` demo is live
+- `macOS` demo is live
+- `iPhone` is still in development for a future TestFlight release
